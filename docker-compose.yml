@@ -4,3 +4,10 @@ services:
     build: .
     ports:
     - "80:80"
+  prometheus:
+    image: prom/prometheus
+    links:
+    - webapi
+    ports:
+    - "9090:9090"
+    
