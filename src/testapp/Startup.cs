@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Prometheus;
 
 namespace testapp
 {
@@ -31,6 +32,7 @@ namespace testapp
                 app.UseHsts();
             }
 
+            app.UseMetricServer();
             app.UseMvc();
         }
     }
