@@ -14,6 +14,7 @@ clean-up:
 	docker-compose down
 .PHONY: clean-up
 
+
 run-app-swarm: build-app
 	docker service create --replicas 1 --publish published=80,target=80,protocol=tcp --name testapp testapp:latest
 .PHONY: run-app-swarm
@@ -31,3 +32,10 @@ run-swarm: run-prom-swarm run-app-swarm
 clean-up-swarm:
 	docker service remove testapp
 .PHONY: clean-up-swarm
+
+
+run-prom-kube:
+	eval $$(minikube docker-env); \
+	kubectl create configmap cfg-prom --from-file=prometheus/prometheus.yml; \
+	kubectl apply -f k8s.yml;
+.PHONY: run-prom-kube
