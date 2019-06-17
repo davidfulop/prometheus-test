@@ -37,5 +37,11 @@ clean-up-swarm:
 run-prom-kube:
 	eval $$(minikube docker-env); \
 	kubectl create configmap cfg-prom --from-file=prometheus/prometheus.yml; \
-	kubectl apply -f k8s.yml;
+	kubectl apply -f k-prometheus.yml;
 .PHONY: run-prom-kube
+
+run-app-kube:
+	eval $$(minikube docker-env); \
+	docker build -t testapp .; \
+	kubectl apply -f k-testapp.yml;
+.PHONY: run-app-kube

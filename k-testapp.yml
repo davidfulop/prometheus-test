@@ -1,0 +1,41 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: d-testapp
+  labels:
+    app: testapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testapp
+  template:
+    metadata:
+      labels:
+        app: testapp
+    spec:
+      containers:
+      - name: testapp
+        image: testapp:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: testapp
+  name: np-testapp
+spec:
+  type: NodePort
+  selector:
+    app: testapp
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    nodePort: 31314
+status:
+  loadBalancer: {}
