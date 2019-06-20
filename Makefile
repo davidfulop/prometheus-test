@@ -36,6 +36,7 @@ clean-up-swarm:
 
 run-prom-kube:
 	eval $$(minikube docker-env); \
+	kubectl delete configmap cfg-prom; \
 	kubectl create configmap cfg-prom --from-file=prometheus/prometheus.yml; \
 	kubectl apply -f k-prometheus.yml;
 .PHONY: run-prom-kube
