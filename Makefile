@@ -46,3 +46,13 @@ run-app-kube:
 	docker build -t testapp .; \
 	kubectl apply -f k-testapp.yml;
 .PHONY: run-app-kube
+
+update-prom-cfg:
+	kubectl delete configmap cfg-prom; \
+	kubectl create configmap cfg-prom --from-file=prometheus/prometheus.yml; \
+	kubectl delete pod $(shell kubectl get pod --selector=app=prometheus --output=jsonpath={.items..metadata.name})
+.PHONY: update-prom-cfg
+
+unset-docker-vars:
+	unset `env|grep DOCKER|cut -d\= -f1`
+.PHONY: unset-docker-vars
